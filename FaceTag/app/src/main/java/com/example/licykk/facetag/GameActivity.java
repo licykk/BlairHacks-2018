@@ -32,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
     private String team;
     MediaPlayer mediaPlayer;
     TextView score;
+    TextView info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
         //GRAB TEAM FROM INTENT
         team = getIntent().getStringExtra(TeamActivity.team);
         score = findViewById(R.id.score);
+        info = findViewById(R.id.info);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
 
     private class ClarifaiTask extends AsyncTask<File, Integer, Boolean> {
 
-        protected void doInBackground(File... images) {
+        protected Boolean doInBackground(File... images) {
             info.setText("Processing...");
             // Connect to Clarifai using your API token
             ClarifaiClient client = new ClarifaiBuilder("YOUR_API_TOKEN").buildSync();
@@ -84,7 +86,9 @@ public class GameActivity extends AppCompatActivity {
                     for (Concept datum : result.data())
                         if (!(datum.name().contains(team.toLowerCase())))
                             score.setText(Integer.parseInt(score.getText().toString())+1);
+                            return true;
             }
+            return false;
         }
         protected void onPostExecute(Boolean result) {
             // Delete photo
@@ -93,7 +97,8 @@ public class GameActivity extends AppCompatActivity {
 
             // If image contained object, close the AlarmActivity
             if (Integer.parseInt(score.getText().toString()) == 2) {
-                score.setText("Success!");
+                info.setText("Success!");
+                score.setText("Score: " + Integer.parseInt(score.getText().toString()));
                 finish();
             }
         }
