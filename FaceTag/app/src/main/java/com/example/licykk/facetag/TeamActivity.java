@@ -19,7 +19,9 @@ import java.util.Date;
  */
 
 public class TeamActivity {
+    //ADD TEAM INTO INTENT
+    public static final String EXTRA_MESSAGE = "com.example.clarifaialarm.MESSAGE";
     protected void onCreate(Bundle savedInstanceState){
-        EditText team = View.findViewById(R.id.team1);
+        EditText team = View.findViewById(R.id.team);
     }
 }
