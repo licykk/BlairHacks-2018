@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
     private String photoPath = null;
     private String team;
     MediaPlayer mediaPlayer;
-    TextView info;
+    TextView score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -40,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
 
         //GRAB TEAM FROM INTENT
         team = getIntent().getStringExtra(TeamActivity.team);
+        score = findViewById(R.id.score);
     }
 
     @Override
@@ -64,6 +65,46 @@ public class GameActivity extends AppCompatActivity {
             Uri photoURI = FileProvider.getUriForFile(this, "com.example.clarifaialarm.fileprovider", photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
+    }
+
+    private class ClarifaiTask extends AsyncTask<File, Integer, Boolean> {
+
+        protected void doInBackground(File... images) {
+            info.setText("Processing...");
+            // Connect to Clarifai using your API token
+            ClarifaiClient client = new ClarifaiBuilder("YOUR_API_TOKEN").buildSync();
+            List<ClarifaiOutput<Concept>> predictionResults;
+            // For each photo we pass, send it off to Clarifai
+            for (File image : images) {
+                predictionResults = client.getDefaultModels().generalModel().predict()
+                        .withInputs(ClarifaiInput.forImage(image)).executeSync().get();
+                // Check if Clarifai thinks the photo contains the object we are looking for
+                for (ClarifaiOutput<Concept> result : predictionResults)
+                    for (Concept datum : result.data())
+                        if (!(datum.name().contains(team.toLowerCase())))
+                            score.setText(Integer.parseInt(score.getText().toString())+1);
+            }
+        }
+        protected void onPostExecute(Boolean result) {
+            // Delete photo
+            (new File(photoPath)).delete();
+            photoPath = null;
+
+            // If image contained object, close the AlarmActivity
+            if (Integer.parseInt(score.getText().toString()) == 2) {
+                score.setText("Success!");
+                finish();
+            }
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // If we've taken a photo, send it off to Clarifai to check
+        if (photoPath != null) {
+            new ClarifaiTask().execute(new File(photoPath));
         }
     }
 }
