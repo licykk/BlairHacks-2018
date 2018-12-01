@@ -30,7 +30,6 @@ public class GameActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
     private String photoPath = null;
     private String team;
-    MediaPlayer mediaPlayer;
     TextView score;
     TextView info;
 
