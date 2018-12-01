@@ -38,6 +38,32 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        team = getIntent().getStringExtra(TeamActivity.)
+        //GRAB TEAM FROM INTENT
+        team = getIntent().getStringExtra(TeamActivity.team);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    public void takePicture(View view) {
+        // Create intent to open camera app
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Proceed only if there is a camera app
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
+            // Attempt to allocate a file to store the photo
+            File photoFile;
+            try {
+                File storageDir = getFilesDir();
+                photoFile = File.createTempFile("SNAPSHOT", ".jpg", storageDir);
+                photoPath = photoFile.getAbsolutePath();
+            } catch (IOException ex) { return; }
+            // Send off to the camera app to get a photo
+            Uri photoURI = FileProvider.getUriForFile(this, "com.example.clarifaialarm.fileprovider", photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
     }
 }
