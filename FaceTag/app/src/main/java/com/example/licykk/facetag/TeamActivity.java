@@ -20,11 +20,19 @@ import java.util.Date;
 
 public class TeamActivity extends AppCompatActivity{
     //ADD TEAM INTO INTENT
-    EditText team;
+    String team;
 
     public static final String EXTRA_MESSAGE = "com.example.licykk.MESSAGE";
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        team = findViewById(R.id.team);
     }
+
+    public void RedTeam(){
+        team = "MLH";
+    }
+
+    public void BlueTeam(){
+        team = "BlairHacks";
+    }
+
 }

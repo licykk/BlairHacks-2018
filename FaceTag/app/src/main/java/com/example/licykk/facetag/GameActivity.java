@@ -74,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
         protected Boolean doInBackground(File... images) {
             info.setText("Processing...");
             // Connect to Clarifai using your API token
-            ClarifaiClient client = new ClarifaiBuilder("YOUR_API_TOKEN").buildSync();
+            ClarifaiClient client = new ClarifaiBuilder("5ecc2035cd3046c0bf9a644fdfa5a43b").buildSync();
             List<ClarifaiOutput<Concept>> predictionResults;
             // For each photo we pass, send it off to Clarifai
             for (File image : images) {
