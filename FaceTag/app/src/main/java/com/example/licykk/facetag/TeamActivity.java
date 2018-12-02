@@ -12,7 +12,8 @@ public class TeamActivity extends AppCompatActivity{
 
     public static final String EXTRA_MESSAGE = "com.example.licykk.MESSAGE";
     protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);        setContentView(R.layout.activity_team);
+
     }
 
     public void RedTeam(View view){
