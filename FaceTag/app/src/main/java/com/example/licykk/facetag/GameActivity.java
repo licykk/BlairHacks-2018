@@ -32,6 +32,8 @@ public class GameActivity extends AppCompatActivity {
     String team = "MLH";
     TextView score;
     TextView info;
+    boolean ispoint = false;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -50,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void takePicture(View view) {
+        info.setText("Score:");
         // Create intent to open camera app
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Proceed only if there is a camera app
@@ -73,7 +76,7 @@ public class GameActivity extends AppCompatActivity {
 
         protected Boolean doInBackground(File... images) {
             // Connect to Clarifai using your API token
-            ClarifaiClient client = new ClarifaiBuilder("5ecc2035cd3046c0bf9a644fdfa5a43b").buildSync();
+            ClarifaiClient client = new ClarifaiBuilder("fbe6ff593211430e8555fd3c7fcd6c4f").buildSync();
             List<ClarifaiOutput<Concept>> predictionResults;
             // For each photo we pass, send it off to Clarifai
             for (File image : images) {
@@ -82,14 +85,9 @@ public class GameActivity extends AppCompatActivity {
                 // Check if Clarifai thinks the photo contains the object we are looking for
                 for (ClarifaiOutput<Concept> result : predictionResults)
                     for (Concept datum : result.data())
-                        if (!(datum.name().contains(team.toLowerCase())))
+                        if ((datum.name().contains(team)))
                             //if(datum.value() > 50)
-                            if(score.getText()=="0"){
-                                score.setText("1");
-                            }
-                            if(score.getText()=="1"){
-                                score.setText("2");
-                            }
+                            ispoint = true;
                             return true;
             }
             return false;
@@ -99,12 +97,26 @@ public class GameActivity extends AppCompatActivity {
             (new File(photoPath)).delete();
             photoPath = null;
 
+            if(ispoint){
+                info.setText("COOZ");
+            }else{
+                info.setText("LOZER");
+            }
+
+            if(score.getText()=="0"){
+                score.setText("1");
+            }
+            if(score.getText()=="1"){
+                score.setText("2");
+            }
+
             // If image contained object, close the AlarmActivity
             if (score.getText() == "2") {
                 info.setText("Success!");
                 score.setText("Score: " + Integer.parseInt(score.getText().toString()));
                 finish();
             }
+            ispoint = false;
         }
     }
     @Override
