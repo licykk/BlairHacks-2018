@@ -33,7 +33,7 @@ public class GameActivity extends AppCompatActivity {
     TextView score;
     TextView info;
     boolean ispoint = false;
-    String name;
+    String name = "oops";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -76,7 +76,7 @@ public class GameActivity extends AppCompatActivity {
 
         protected Boolean doInBackground(File... images) {
             // Connect to Clarifai using your API token
-            ClarifaiClient client = new ClarifaiBuilder("fbe6ff593211430e8555fd3c7fcd6c4f").buildSync();
+            ClarifaiClient client = new ClarifaiBuilder("f61653aae80940e9b60a9b0ff8b52b41").buildSync();
             List<ClarifaiOutput<Concept>> predictionResults;
             // For each photo we pass, send it off to Clarifai
             for (File image : images) {
@@ -85,10 +85,11 @@ public class GameActivity extends AppCompatActivity {
                 // Check if Clarifai thinks the photo contains the object we are looking for
                 for (ClarifaiOutput<Concept> result : predictionResults)
                     for (Concept datum : result.data())
-                        if ((datum.name().contains(team)))
-                            //if(datum.value() > 50)
-                            ispoint = true;
-                            return true;
+                        if (!(datum.name().contains(team)))
+                            if(datum.value() > 0)
+                                name = datum.name();
+                                ispoint = true;
+                                return true;
             }
             return false;
         }
@@ -98,16 +99,10 @@ public class GameActivity extends AppCompatActivity {
             photoPath = null;
 
             if(ispoint){
-                info.setText("COOZ");
-            }else{
-                info.setText("LOZER");
-            }
-
-            if(score.getText()=="0"){
+                info.setText("COOZ. Score:" + name);
                 score.setText("1");
-            }
-            if(score.getText()=="1"){
-                score.setText("2");
+            }else{
+                info.setText("LOZER" + ispoint);
             }
 
             // If image contained object, close the AlarmActivity
