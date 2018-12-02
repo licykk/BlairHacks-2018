@@ -72,7 +72,6 @@ public class GameActivity extends AppCompatActivity {
     private class ClarifaiTask extends AsyncTask<File, Integer, Boolean> {
 
         protected Boolean doInBackground(File... images) {
-            info.setText("Processing...");
             // Connect to Clarifai using your API token
             ClarifaiClient client = new ClarifaiBuilder("5ecc2035cd3046c0bf9a644fdfa5a43b").buildSync();
             List<ClarifaiOutput<Concept>> predictionResults;
@@ -84,8 +83,9 @@ public class GameActivity extends AppCompatActivity {
                 for (ClarifaiOutput<Concept> result : predictionResults)
                     for (Concept datum : result.data())
                         if (!(datum.name().contains(team.toLowerCase())))
-                            score.setText(Integer.parseInt(score.getText().toString())+1);
-                            return true;
+                            if(datum.value() > 50)
+                                score.setText(Integer.parseInt(score.getText().toString())+1);
+                                return true;
             }
             return false;
         }

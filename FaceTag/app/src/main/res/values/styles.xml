@@ -12,6 +12,7 @@
     <style name="FlagTag" parent="AppTheme" >
         <item name="android:colorBackground">#ffffff</item>
         <item name="colorAccent">#daafea</item>
+        <item name="android:colorForeground">#ffffff</item>
     </style>
 
 </resources>
