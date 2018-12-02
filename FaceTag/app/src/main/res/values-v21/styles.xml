@@ -1,17 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#7c5a91</item>
         <item name="colorPrimaryDark">#666666</item>
         <item name="colorAccent">#666666</item>
         <item name="android:colorBackground">#666666</item>
+        <item name="android:statusBarColor">#7c5a91</item>
     </style>
-
-    <style name="FlagTag" parent="AppTheme" >
-        <item name="android:colorBackground">#ffffff</item>
-        <item name="colorAccent">#daafea</item>
-    </style>
-
 </resources>

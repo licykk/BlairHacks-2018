@@ -18,10 +18,13 @@ import java.util.Date;
  * Created by Licykk on 12/1/18.
  */
 
-public class TeamActivity {
+public class TeamActivity extends AppCompatActivity{
     //ADD TEAM INTO INTENT
-    public static final String EXTRA_MESSAGE = "com.example.clarifaialarm.MESSAGE";
+    EditText team;
+
+    public static final String EXTRA_MESSAGE = "com.example.licykk.MESSAGE";
     protected void onCreate(Bundle savedInstanceState){
-        EditText team = View.findViewById(R.id.team);
+        super.onCreate(savedInstanceState);
+        team = findViewById(R.id.team);
     }
 }
