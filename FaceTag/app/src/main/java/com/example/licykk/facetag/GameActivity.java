@@ -39,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         //GRAB TEAM FROM INTENT
-        team = getIntent().getStringExtra(TeamActivity.team);
+        team = getIntent().getStringExtra("TEAM");
         score = findViewById(R.id.score);
         info = findViewById(R.id.info);
     }
