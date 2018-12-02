@@ -28,8 +28,8 @@ import clarifai2.dto.prediction.Concept;
 
 public class GameActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 1;
-    private String photoPath = null;
-    private String team;
+    String photoPath = null;
+    String team = "MLH";
     TextView score;
     TextView info;
 
@@ -39,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         //GRAB TEAM FROM INTENT
-        team = getIntent().getStringExtra("TEAM");
+        team = getIntent().getStringExtra(TeamActivity.EXTRA_MESSAGE);
         score = findViewById(R.id.score);
         info = findViewById(R.id.info);
     }
