@@ -83,9 +83,14 @@ public class GameActivity extends AppCompatActivity {
                 for (ClarifaiOutput<Concept> result : predictionResults)
                     for (Concept datum : result.data())
                         if (!(datum.name().contains(team.toLowerCase())))
-                            if(datum.value() > 50)
-                                score.setText(Integer.parseInt(score.getText().toString())+1);
-                                return true;
+                            //if(datum.value() > 50)
+                            if(score.getText()=="0"){
+                                score.setText("1");
+                            }
+                            if(score.getText()=="1"){
+                                score.setText("2");
+                            }
+                            return true;
             }
             return false;
         }
@@ -95,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
             photoPath = null;
 
             // If image contained object, close the AlarmActivity
-            if (Integer.parseInt(score.getText().toString()) == 2) {
+            if (score.getText() == "2") {
                 info.setText("Success!");
                 score.setText("Score: " + Integer.parseInt(score.getText().toString()));
                 finish();
