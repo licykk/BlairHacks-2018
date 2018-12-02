@@ -29,10 +29,19 @@ public class TeamActivity extends AppCompatActivity{
 
     public void RedTeam(){
         team = "MLH";
+        playGame();
     }
 
     public void BlueTeam(){
         team = "BlairHacks";
+        playGame();
     }
+
+    public void playGame() {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("TEAM", team);
+        startActivity(intent);
+    }
+
 
 }
